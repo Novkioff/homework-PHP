@@ -1,5 +1,4 @@
 <?php if (isset($_POST["speed"])); {$speed = ($_POST["speed"]);}?>
-<?php if (isset($_POST["value"])); {$but_sub = ($_POST["value"]);}?>
 
 <!doctype html>
 <html lang="ru">
@@ -66,27 +65,30 @@
     <body>
         <div class="wrapper">
             <h1>Домашнее задание по PHP - форма контроля скорости</h1>
-            <div class="form_speed">
-                <form name="speed_control" action="index.php" method="post">
-                    <input type="text" name="speed" placeholder="Введите скорость">
-                    <button type="submit" name="button_submit">Проверить</button>
-                </form>
-            </div>
-            <?php
+            <?if (isset($speed) and strlen($speed)):?>
+                <?php
                 $normal = 60;
+                $backLink = "<a href='index.php' title='назад'>НАЗАД</a>";
                 if ($speed > $normal) {
                     $excess = ($speed - $normal);
                     echo "<p class='red'>Вы превысили скорость на ", $excess, " км/ч</p>";
-                    echo "<a href='http://homework040717/' title='назад'>НАЗАД</a>";
-
-
+                    echo $backLink;
                 }
-                elseif ($speed <= $normal and isset($speed)) {
+                elseif ($speed <= $normal) {
                     echo "<p class='green'>Скорость в норме</p>";
-                    echo "<a href='http://homework040717/' title='назад'>НАЗАД</a>";
+                    echo $backLink;
                 }
-
-
-            ?>
+                ?>
+            <?else:?>
+                <div class="form_speed">
+                    <form name="speed_control" action="index.php" method="post">
+                        <input type="text" name="speed" placeholder="Введите скорость">
+                        <button type="submit" name="button_submit">Проверить</button>
+                    </form>
+                </div>
+            <?endif?>
+            <?if (isset($speed) and !strlen($speed)):?>
+                <?echo "<p class='red'>Форма пустая</p>";?>
+            <?endif?>
     </body>
 </html>
